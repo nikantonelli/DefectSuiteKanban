@@ -1,5 +1,5 @@
-DefectSuiteKanban
-=========================
+WorkItem Kanban
+===============
 
 ## Overview
 
