@@ -50,9 +50,15 @@
             }
         },
 
+        _getSelectedModels: function() {
+            var setting = this.getSetting('enabledModels');
+            if (typeof setting === 'string') { setting = setting.split(",");}
+            return setting;
+        },
+
         launch: function() {
 
-            var models = this.getSetting('enabledModels');
+            var models = this._getSelectedModels();
             if (models.length === 0) {
                 models = ['UserStory'];   //Can't have 'nothing'
             }
@@ -95,6 +101,8 @@
                 displayField: 'name',
                 valueField: 'name',
                 storeType: 'Ext.data.Store',
+                stateful: true,
+                stateId: this.getContext().getScopedStateId('cardTypeSelector'),
                 storeConfig: {
                     remoteFilter: false,
                     fields: ['name'],
@@ -122,7 +130,7 @@
         },
 
         onSettingsUpdate: function() {
-            this.gridboard.destroy();
+            if ( this.gridboard) { this.gridboard.destroy();}
             this.launch();
         },
 
@@ -375,7 +383,7 @@
         },
 
         _getDefaultTypes: function() {
-            return this.getSetting('enabledModels');
+            return this._getSelectedModels();
         },
 
         _buildStandardReportConfig: function(reportConfig) {
