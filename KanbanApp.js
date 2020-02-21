@@ -1,7 +1,7 @@
 (function() {
     var Ext = window.Ext4 || window.Ext;
 
-    Ext.define('Rally.apps.kanban.KanbanApp', {
+    Ext.define('Niks.Apps.DefectSuiteKanban', {
         extend: 'Rally.app.App',
         requires: [
             'Rally.apps.kanban.Settings',
@@ -33,6 +33,7 @@
 
         config: {
             defaultSettings: {
+                enabledModels: ['DefectSuite'],
                 groupByField: 'ScheduleState',
                 showRows: false,
                 columns: Ext.JSON.encode({
@@ -50,9 +51,17 @@
         },
 
         launch: function() {
+
+            var models = this.getSetting('enabledModels');
+            if (models.length === 0) {
+                models = ['UserStory'];   //Can't have 'nothing'
+            }
             Rally.data.ModelFactory.getModel({
-                type: 'DefectSuite',
+                type: models[0],
                 success: this._onStoryModelRetrieved,
+                failure: function(error) {
+                    console.log('Failed to fetch model: ', error);
+                },
                 scope: this
             });
         },
@@ -78,10 +87,27 @@
         },
 
         getSettingsFields: function() {
-            return Rally.apps.kanban.Settings.getFields({
+            return [{
+                name: 'enabledModels',
+                fieldLabel: 'Card Types',
+                xtype: 'rallycombobox',
+                multiSelect: true,
+                displayField: 'name',
+                valueField: 'name',
+                storeType: 'Ext.data.Store',
+                storeConfig: {
+                    remoteFilter: false,
+                    fields: ['name'],
+                    data: [
+                        { 'name': 'DefectSuite'},
+                        { 'name': 'Defect'},
+                        { 'name': 'UserStory'}
+                    ],
+                },
+            }].concat(Rally.apps.kanban.Settings.getFields({
                 shouldShowColumnLevelFieldPicker: this._shouldShowColumnLevelFieldPicker(),
                 defaultCardFields: this.getSetting('cardFields')
-            });
+            }));
         },
 
         /**
@@ -91,6 +117,11 @@
          */
         onTimeboxScopeChange: function() {
             this.callParent(arguments);
+            this.gridboard.destroy();
+            this.launch();
+        },
+
+        onSettingsUpdate: function() {
             this.gridboard.destroy();
             this.launch();
         },
@@ -344,7 +375,7 @@
         },
 
         _getDefaultTypes: function() {
-            return ['DefectSuite'];
+            return this.getSetting('enabledModels');
         },
 
         _buildStandardReportConfig: function(reportConfig) {
