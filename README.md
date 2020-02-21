@@ -3,6 +3,9 @@ DefectSuiteKanban
 
 ## Overview
 
+Kanban board for User Stories converted to use DefectSuites instead.
+
+![alt text](https://github.com/nikantonelli/DefectSuiteKanban/blob/master/Images/image1.png)
 
 ## License
 
