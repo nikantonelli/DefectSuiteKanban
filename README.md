@@ -3,7 +3,7 @@ DefectSuiteKanban
 
 ## Overview
 
-Kanban board for User Stories converted to use DefectSuites instead.
+Kanban board for User Stories converted to use DefectSuites and/or Defects as well. Exit policies and WIP limits included as per the original
 
 ![alt text](https://github.com/nikantonelli/DefectSuiteKanban/blob/master/Images/image1.png)
 
