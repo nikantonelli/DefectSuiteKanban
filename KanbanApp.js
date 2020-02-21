@@ -155,6 +155,7 @@
         },
 
         _getGridboardConfig: function(cardboardConfig) {
+            var me =this;
             var context = this.getContext(),
                 modelNames = this._getDefaultTypes(),
                 blackListFields = ['Successors', 'Predecessors', 'DisplayColor'],
@@ -175,7 +176,8 @@
                                 scope: this
                             },
                             stateful: true,
-                            stateId: context.getScopedStateId('kanban-add-new')
+                            stateId: context.getScopedStateId('kanban-add-new'),
+                            modelNames: me._getSelectedModels() 
                         }
                     },
                     {
