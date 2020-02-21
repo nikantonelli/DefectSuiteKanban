@@ -109,7 +109,8 @@
                     data: [
                         { 'name': 'DefectSuite'},
                         { 'name': 'Defect'},
-                        { 'name': 'UserStory'}
+                        { 'name': 'UserStory'},
+                        { 'name': 'TestSet'}
                     ],
                 },
             }].concat(Rally.apps.kanban.Settings.getFields({
