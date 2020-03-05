@@ -195,7 +195,12 @@
         alias: 'widget.kanbancolumn',
 
         config: {
-            hideReleasedCards: false
+            hideReleasedCards: false,
+            hideOldCards: false
+        },
+
+        _getAge: function() {
+            return this.ownerCardboard.up('#Kanban').getSetting('cardAgeThreshold');
         },
 
         getStoreFilter: function (model) {
@@ -214,6 +219,13 @@
                 filters.push({
                     property: 'Release',
                     value: null
+                });
+            }
+            if (this.hideOldCards) {
+                filters.push({
+                    property: 'LastUpdateDate',
+                    operator: '>',
+                    value: Ext.Date.format(Ext.Date.subtract(new Date(), Ext.Date.DAY,this._getAge()), "Y-m-d\\TH:i:s")
                 });
             }
 
@@ -698,9 +710,15 @@
 
             items.push(
                 {
-                    name: 'hideReleasedCards',
+                    name: 'hideOldCards',
                     xtype: 'rallycheckboxfield',
                     fieldLabel: 'Options',
+                    margin: '10 0 0 0',
+                    boxLabel: 'Hide cards in last visible column not modified in (Show Age) days'
+                },{
+                    name: 'hideReleasedCards',
+                    xtype: 'rallycheckboxfield',
+                    fieldLabel: '  ',
                     margin: '10 0 0 0',
                     boxLabel: 'Hide cards in last visible column if assigned to a release'
                 },
@@ -747,6 +765,7 @@
         cls: 'kanban',
         alias: 'widget.kanbanapp',
         appName: 'Kanban',
+        itemId:'Kanban',
         helpId: 238,
 
         settingsScope: 'project',
@@ -766,6 +785,7 @@
                 }),
                 cardFields: 'FormattedID,Name,Owner,Discussion,Tasks,Defects', //remove with COLUMN_LEVEL_FIELD_PICKER_ON_KANBAN_SETTINGS
                 hideReleasedCards: false,
+                hideOldCards: false,
                 showCardAge: true,
                 cardAgeThreshold: 3,
                 pageSize: 25
@@ -986,6 +1006,7 @@
             }, this);
 
             columns[columns.length - 1].hideReleasedCards = this.getSetting('hideReleasedCards');
+            columns[columns.length - 1].hideOldCards = this.getSetting('hideOldCards');
 
             return columns;
         },

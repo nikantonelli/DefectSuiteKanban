@@ -25,6 +25,7 @@
         cls: 'kanban',
         alias: 'widget.kanbanapp',
         appName: 'Kanban',
+        itemId:'Kanban',
         helpId: 238,
 
         settingsScope: 'project',
@@ -44,6 +45,7 @@
                 }),
                 cardFields: 'FormattedID,Name,Owner,Discussion,Tasks,Defects', //remove with COLUMN_LEVEL_FIELD_PICKER_ON_KANBAN_SETTINGS
                 hideReleasedCards: false,
+                hideOldCards: false,
                 showCardAge: true,
                 cardAgeThreshold: 3,
                 pageSize: 25
@@ -264,6 +266,7 @@
             }, this);
 
             columns[columns.length - 1].hideReleasedCards = this.getSetting('hideReleasedCards');
+            columns[columns.length - 1].hideOldCards = this.getSetting('hideOldCards');
 
             return columns;
         },

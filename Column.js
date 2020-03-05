@@ -6,7 +6,12 @@
         alias: 'widget.kanbancolumn',
 
         config: {
-            hideReleasedCards: false
+            hideReleasedCards: false,
+            hideOldCards: false
+        },
+
+        _getAge: function() {
+            return this.ownerCardboard.up('#Kanban').getSetting('cardAgeThreshold');
         },
 
         getStoreFilter: function (model) {
@@ -25,6 +30,13 @@
                 filters.push({
                     property: 'Release',
                     value: null
+                });
+            }
+            if (this.hideOldCards) {
+                filters.push({
+                    property: 'LastUpdateDate',
+                    operator: '>',
+                    value: Ext.Date.format(Ext.Date.subtract(new Date(), Ext.Date.DAY,this._getAge()), "Y-m-d\\TH:i:s")
                 });
             }
 

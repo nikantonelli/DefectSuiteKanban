@@ -78,9 +78,15 @@
 
             items.push(
                 {
-                    name: 'hideReleasedCards',
+                    name: 'hideOldCards',
                     xtype: 'rallycheckboxfield',
                     fieldLabel: 'Options',
+                    margin: '10 0 0 0',
+                    boxLabel: 'Hide cards in last visible column not modified in (Show Age) days'
+                },{
+                    name: 'hideReleasedCards',
+                    xtype: 'rallycheckboxfield',
+                    fieldLabel: '  ',
                     margin: '10 0 0 0',
                     boxLabel: 'Hide cards in last visible column if assigned to a release'
                 },
