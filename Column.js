@@ -7,7 +7,8 @@
 
         config: {
             hideReleasedCards: false,
-            hideOldCards: false
+            hideOldCards: false,
+            sortField: 'DragAndDropRank'
         },
 
         _getAge: function() {

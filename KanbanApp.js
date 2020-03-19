@@ -34,7 +34,7 @@
 
         config: {
             defaultSettings: {
-                enabledModels: ['DefectSuite'],
+                enabledModels: ['UserStory'],
                 groupByField: 'ScheduleState',
                 showRows: false,
                 columns: Ext.JSON.encode({
@@ -48,7 +48,7 @@
                 hideOldCards: false,
                 showCardAge: true,
                 cardAgeThreshold: 3,
-                pageSize: 25
+                pageSize: 2000
             }
         },
 
@@ -325,19 +325,22 @@
                     showBlockedReason: true
                 },
                 storeConfig: {
-                    context: this.getContext().getDataContext()
-                }
+                    context: this.getContext().getDataContext(),
+                    pageSize: 2000
+                },
             };
             if (this.getSetting('showRows')) {
                 Ext.merge(config, {
                     rowConfig: {
                         field: this.getSetting('rowsField'),
-                        sortDirection: 'ASC'
+                        sortDirection: 'ASC',
+                        sortField: 'DragAndDropRank'
                     }
                 });
             }
             return config;
         },
+
 
         _getFilters: function() {
             var filters = [];

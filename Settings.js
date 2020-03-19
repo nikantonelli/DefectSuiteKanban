@@ -72,7 +72,8 @@
                         !_.contains(['web_link', 'text', 'date'], attr.AttributeType.toLowerCase());
                 },
                 explicitFields: [
-                    {name: 'Sizing', value: 'PlanEstimate'}
+                    {name: 'Sizing', value: 'PlanEstimate' },
+                    {name: 'Parent', value: 'PortfolioItem'}
                ]
             });
 
